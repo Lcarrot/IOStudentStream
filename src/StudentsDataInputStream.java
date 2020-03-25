@@ -73,7 +73,7 @@ public class StudentsDataInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 }
 

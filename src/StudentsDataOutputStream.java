@@ -30,7 +30,7 @@ public class StudentsDataOutputStream extends OutputStream {
 
     @Override
     public void write(int b) throws IOException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
