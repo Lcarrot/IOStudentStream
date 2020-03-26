@@ -5,9 +5,9 @@ public class Student implements Serializable {
     private String name;
     private String surname;
     private boolean sex;
-    private int group;
+    private byte group;
 
-    public Student(String name, String surname, boolean sex, int group) {
+    public Student(String name, String surname, boolean sex, byte group) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -34,6 +34,7 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         String gender =  sex ? "man" : "woman";
+        int group = 900+this.group;
         return "Student{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +

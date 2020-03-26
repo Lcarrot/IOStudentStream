@@ -1,6 +1,9 @@
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StudentsDataInputStream extends InputStream {
 
@@ -17,18 +20,37 @@ public class StudentsDataInputStream extends InputStream {
 
     public Student readStudent() throws IOException {
         String[] name = new String[2];
-        for( int i = 0; i < 2; i++) {
-            StringBuilder str = new StringBuilder();
-            char b = Character.MIN_VALUE;
-            while (b != ' ') {
-                str.append(b);
-                b = dis.readChar();
+        StringBuilder str = new StringBuilder();
+        boolean sex = true;
+        byte group = 0;
+        char b = Character.MIN_VALUE;
+        for (int i = 0; i < 5; i++) {
+            switch (dis.readByte()) {
+                case 1:
+                    while (b != ' ') {
+                        str.append(b);
+                        b = dis.readChar();
+                    }
+                    name[0] = str.toString();
+                    str = new StringBuilder();
+                    break;
+                case 2:
+                    while (b != ' ') {
+                        str.append(b);
+                        b = dis.readChar();
+                    }
+                    name[1] = str.toString();
+                    str = new StringBuilder();
+                    break;
+                case 3:
+                    sex = 1 == dis.readByte();
+                    break;
+                default:
+                    group = dis.readByte();
+                    break;
             }
-            name[i] = str.toString();
         }
-        boolean sex = dis.readByte() == 1;
-        int group = dis.readInt();
-        return new Student(name[0],name[1],sex, group);
+        return new Student(name[0], name[1], sex, group);
     }
 
     @Override
@@ -72,7 +94,7 @@ public class StudentsDataInputStream extends InputStream {
     }
 
     @Override
-    public int read() throws IOException {
+    public int read() {
         throw new UnsupportedOperationException();
     }
 }

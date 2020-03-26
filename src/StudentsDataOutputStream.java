@@ -15,21 +15,35 @@ public class StudentsDataOutputStream extends OutputStream {
         }
     }
 
-    public void writeStudent(Student student) throws IOException {
-        String[] name = new String[]{student.getName(), student.getSurname()};
-        for (String s : name) {
-            for (int k = 0; k < s.length(); k++) {
-                dos.writeChar(s.charAt(k));
+    public void writeStudent(Student student, byte first, byte second, byte third, byte fourth) throws IOException {
+        byte[] order = new byte[]{first, second, third, fourth};
+        byte l;
+        if (first > 4 || second > 4 || third > 4 || fourth > 4) throw new IllegalArgumentException();
+        for (int i = 0; i < order.length; i++) {
+            int k = order[i];
+            switch (k) {
+                case 1:
+                    dos.writeChars(student.getName());
+                    dos.writeChar(' ');
+                    break;
+                case 2:
+                    dos.writeChars(student.getSurname());
+                    dos.writeChar(' ');
+                    break;
+                case 3:
+                    l = (byte) (student.getSex() ? 1 : 2);
+                    dos.writeByte(l);
+                    break;
+                default:
+                    l = (byte) (student.getGroup() - 900);
+                    dos.writeByte(l);
+                    break;
             }
-            dos.writeChar(' ');
         }
-        byte sex = (byte) ((student.getSex()) ? 1 : 2);
-        dos.writeByte(sex);
-        dos.writeInt(student.getGroup());
     }
 
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b) {
         throw new UnsupportedOperationException();
     }
 
